@@ -91,3 +91,8 @@ ros2 run mmseg_infer infer -os-args -p model:=/root/workspace/danetmodels/ -p de
 
 ### 1.3 Be aware offs
 * Use cyclone dds
+
+
+## 2. Using OpenPCDet docker image for point cloud perception
+
+todo
