@@ -86,7 +86,7 @@ The files will be dumped to `mmdeploy/work-dir`, create a new folder under `work
 You can run with newly deployed models 
 
 ```bash
-ros2 run mmseg_infer infer -os-args -p model:=/root/workspace/danetmodels/ -p device:=cuda -p pallete:=cityscapes
+ros2 run mmseg_infer infer --ros-args -p model:=/root/workspace/danetmodels/ -p device:=cuda -p pallete:=cityscapes
 ```
 
 ### 1.3 Be aware offs
@@ -95,4 +95,43 @@ ros2 run mmseg_infer infer -os-args -p model:=/root/workspace/danetmodels/ -p de
 
 ## 2. Using OpenPCDet docker image for point cloud perception
 
-todo
+Point cloud detectors are well, put it as they are, pain in the az, the domain differnce between datasets such as nuscenes, kitti or waymo just makes it hard for these detectors to be useful out of the box. 
+You gotta collect your own data and label but who got the time to do that ? 
+
+Anyway pull the docker image which includes functional [OpenPCDet](https://github.com/open-mmlab/OpenPCDet) running with CUDA 11.6. 
+
+```bash
+docker pull  jediofgever/pcdet:latest
+```
+
+Note; To able to use these two images simultanously, you will need lots of free disk space and a decent Nvidia GPU.
+
+start a runtime container from this image, 
+
+```bash
+sudo docker run --net host --gpus all --env "DISPLAY" -it jediofgever/pcdet:latest
+```
+Again. make sure you get meaningfull output from `nvidia-smi`, 
+
+
+There is a rclpy based ros package for online and offilne point cloud object detection,  
+
+```bash
+cd /home/ros2_ws/
+source install/setup.bash
+ros2 run pcdet_inference_ros live_cloud_inference
+```
+
+Assuming there is sensor_msgs::msg::Pointcloud2 message being published to `/dobbie/sensing/lidar/top/pointcloud_raw`, the node should publish detected
+objects (if any) to `/pcdet/lidar/detections` of `vision_msgs::msg::Detection3DArray`. 
+
+Most of networks use 4 or 5 point features (x, y, z, intensity, timestamp). if you wan to use differnt network settings, you can pass arguments to ros node. 
+
+
+```bash
+ros2 run pcdet_inference_ros live_cloud_inference --ros-args \
+-p cfg_file:=/home/OpenPCDet/tools/cfgs/argo2_models/cbgs_voxel01_voxelnext_headkernel3.yaml \
+-p ckpt:=/home/OpenPCDet/checkpoints/voxelnext_argo2_kernel3.pth \
+-p detection_threshold:=0.6 \
+-p feature_dim:=4
+```
