@@ -8,13 +8,13 @@ Instructions on how to utilize perception docker images for dobbie.
 Pull the docker image; 
 
 ```bash
-docker pull jediofgever/ros2_ws:latest
+docker pull jediofgever/mmsegmentation:latest
 ```
 
-THe base image for `jediofgever/ros2_ws:latest` is based on Nvidia's CUDA enabled images. Now create a runtime container from this image with the following;
+THe base image for `jediofgever/mmsegmentation:latest` is based on Nvidia's CUDA enabled images. Now create a runtime container from this image with the following;
 
 ```bash
-sudo docker run --net host --gpus all --env "DISPLAY" -it jediofgever/ros2_ws:latest
+sudo docker run --net host --gpus all --env "DISPLAY" -it jediofgever/mmsegmentation:latest
 ```
 
 Ensure that NVIDIA GPU is in usable state with;
