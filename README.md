@@ -104,7 +104,7 @@ Anyway pull the docker image which includes functional [OpenPCDet](https://githu
 docker pull  jediofgever/pcdet:latest
 ```
 
-Note; To able to use these two images simultanously, you will need lots of free disk space and a decent Nvidia GPU.
+Note; To able to use these two images simultanously, you will need lots of free disk space (at least 60GB) and a decent NVidia GPU.
 
 start a runtime container from this image, 
 
@@ -122,7 +122,7 @@ source install/setup.bash
 ros2 run pcdet_inference_ros live_cloud_inference
 ```
 
-Assuming there is sensor_msgs::msg::Pointcloud2 message being published to `/dobbie/sensing/lidar/top/pointcloud_raw`, the node should publish detected
+Assuming there is `sensor_msgs::msg::Pointcloud2` message being published to `/dobbie/sensing/lidar/top/pointcloud_raw`, the node should publish detected
 objects (if any) to `/pcdet/lidar/detections` of `vision_msgs::msg::Detection3DArray`. 
 
 Most of networks use 4 or 5 point features (x, y, z, intensity, timestamp). if you wan to use differnt network settings, you can pass arguments to ros node. 
