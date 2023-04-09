@@ -83,8 +83,11 @@ python3 ./tools/deploy.py configs/mmseg/segmentation_tensorrt-fp16_static-1024x1
 
 The files will be dumped to `mmdeploy/work-dir`, create a new folder under `workspace` (e.g. XXmodels), then move generated files to newly created folder. 
 
-You had need to change 
+You can run with newly deployed models 
 
+```bash
+ros2 run mmseg_infer infer -os-args -p model:=/root/workspace/danetmodels/ -p device:=cuda -p pallete:=cityscapes
+```
 
 ### 1.3 Be aware offs
 * Use cyclone dds
